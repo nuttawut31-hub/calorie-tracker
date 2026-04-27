@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# --- START: NEXT.js .gitattributes ---
+# This section tells Git how to handle text file line endings
+# "text=auto" tells Git to normalize line endings for text files
+# "eol=lf" forces line endings to be LF (Unix style) in the repository
+# This ensures consistent line endings across different operating systems
+* text=auto eol=lf
+# --- END: NEXT.js .gitattributes ---
