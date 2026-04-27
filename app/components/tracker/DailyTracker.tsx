@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import {
   CalendarDays,
   ChevronLeft,
@@ -10,6 +10,7 @@ import {
 import Card from '@/app/components/ui/Card';
 import ProgressBar from '@/app/components/ui/ProgressBar';
 import MealCard from '@/app/components/tracker/MealCard';
+import CalendarPicker from '@/app/components/ui/CalendarPicker';
 import { useDailyLogStore } from '@/lib/store';
 import { useTDEEStore } from '@/lib/store';
 import { useHydration } from '@/lib/useHydration';
@@ -20,9 +21,13 @@ import type { NutritionInfo } from '@/lib/types';
 /**
  * Daily progress tracker — shows date navigation, macro progress bars vs TDEE targets,
  * and list of saved meals for the selected day.
+ * Includes a calendar popover with checkmarks on logged dates.
  */
 export default function DailyTracker() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [monthOffset, setMonthOffset] = useState(0);
+
   const dateKey = formatDate(selectedDate);
   const hydrated = useHydration();
 
@@ -33,6 +38,15 @@ export default function DailyTracker() {
   const totals = log?.totalNutrition ?? emptyNutrition();
   const meals = log?.meals ?? [];
 
+  // Set of all dates that have logged meals (used by CalendarPicker)
+  const loggedDates = hydrated
+    ? new Set(
+        Object.entries(dailyLogs)
+          .filter(([, v]) => v.meals.length > 0)
+          .map(([k]) => k)
+      )
+    : new Set<string>();
+
   const isToday = dateKey === formatDate(new Date());
 
   function navigateDay(delta: number) {
@@ -42,6 +56,15 @@ export default function DailyTracker() {
       return next;
     });
   }
+
+  const handleCalendarSelect = useCallback((date: Date) => {
+    setSelectedDate(date);
+    setShowCalendar(false);
+  }, []);
+
+  const handleCalendarClose = useCallback(() => {
+    setShowCalendar(false);
+  }, []);
 
   // Targets from TDEE result (use hydrated to avoid mismatch)
   const targets = hydrated
@@ -85,18 +108,48 @@ export default function DailyTracker() {
           <ChevronLeft className="w-4 h-4 text-white/50" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <CalendarDays className="w-4 h-4 text-white/40" />
-          <span className="text-sm font-semibold text-white/80">
-            {isToday
-              ? 'Today'
-              : selectedDate.toLocaleDateString('en-US', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                })}
-          </span>
-          <span className="text-xs text-white/30 font-mono">{dateKey}</span>
+        {/* Centre: calendar icon (clickable) + date label */}
+        <div className="relative flex items-center gap-2">
+          <button
+            id="calendar-toggle-btn"
+            onClick={() => setShowCalendar((v) => !v)}
+            className={[
+              'p-1.5 rounded-lg transition-colors',
+              showCalendar
+                ? 'bg-indigo-500/20 text-indigo-400'
+                : 'hover:bg-white/[0.06] text-white/40 hover:text-white/70',
+            ].join(' ')}
+            aria-label="Open date picker"
+            aria-expanded={showCalendar}
+            aria-haspopup="dialog"
+          >
+            <CalendarDays className="w-4 h-4" />
+          </button>
+
+          <div className="flex flex-col items-start">
+            <span className="text-sm font-semibold text-white/80 leading-none">
+              {isToday
+                ? 'Today'
+                : selectedDate.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+            </span>
+            <span className="text-[10px] text-white/30 font-mono mt-0.5">{dateKey}</span>
+          </div>
+
+          {/* Calendar Popover */}
+          {showCalendar && (
+            <CalendarPicker
+              selectedDate={selectedDate}
+              onSelect={handleCalendarSelect}
+              loggedDates={loggedDates}
+              onClose={handleCalendarClose}
+              monthOffset={monthOffset}
+              onMonthOffsetChange={setMonthOffset}
+            />
+          )}
         </div>
 
         <button
