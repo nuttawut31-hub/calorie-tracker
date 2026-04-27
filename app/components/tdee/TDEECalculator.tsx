@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Calculator } from 'lucide-react';
 import Card from '@/app/components/ui/Card';
 import SafetyWarning from '@/app/components/ui/SafetyWarning';
+import CustomSelect from '@/app/components/ui/CustomSelect';
 import { useTDEEStore } from '@/lib/store';
 import { getSafetyWarning } from '@/lib/utils';
 import { ACTIVITY_LABELS, GOAL_LABELS } from '@/lib/constants';
@@ -184,18 +185,16 @@ export default function TDEECalculator() {
           >
             Activity Level
           </label>
-          <select
+          <CustomSelect<ActivityLevel>
             id="activity-select"
             value={activity}
-            onChange={(e) => setActivity(e.target.value as ActivityLevel)}
-            className="select-dark"
-          >
-            {ACTIVITY_OPTIONS.map((level) => (
-              <option key={level} value={level}>
-                {ACTIVITY_LABELS[level]}
-              </option>
-            ))}
-          </select>
+            options={ACTIVITY_OPTIONS.map((level) => ({
+              value: level,
+              label: ACTIVITY_LABELS[level],
+            }))}
+            onChange={setActivity}
+            label="Activity Level"
+          />
         </div>
 
         {/* Goal */}

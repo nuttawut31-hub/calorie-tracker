@@ -45,7 +45,6 @@ export default function Home() {
       {/* Main Content                                                     */}
       {/* ================================================================ */}
       <main className="flex-1 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 w-full">
-
         {/* ------------------------------------------------------------ */}
         {/* Section 1: AI Food Scanner + Ingredient List                  */}
         {/* Placed FIRST on mobile — most important feature               */}
@@ -67,7 +66,10 @@ export default function Home() {
         {/* ------------------------------------------------------------ */}
         {/* Section 2: TDEE Calculator + Macro Results                    */}
         {/* ------------------------------------------------------------ */}
-        <section className="mb-4 sm:mb-6 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+        <section
+          className="mb-4 sm:mb-6 animate-fade-in-up"
+          style={{ animationDelay: "0.1s" }}
+        >
           <div className="flex items-center gap-2 mb-3">
             <span className="text-[10px] font-bold text-white/25 uppercase tracking-widest">
               Step 2 — Calorie Target
@@ -84,7 +86,10 @@ export default function Home() {
         {/* ------------------------------------------------------------ */}
         {/* Section 3: Daily Progress Tracker                             */}
         {/* ------------------------------------------------------------ */}
-        <section className="mb-4 sm:mb-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+        <section
+          className="mb-4 sm:mb-6 animate-fade-in-up"
+          style={{ animationDelay: "0.2s" }}
+        >
           <div className="flex items-center gap-2 mb-3">
             <span className="text-[10px] font-bold text-white/25 uppercase tracking-widest">
               Step 3 — Daily Log
