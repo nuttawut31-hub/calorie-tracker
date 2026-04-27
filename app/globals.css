@@ -417,3 +417,52 @@ body {
   color: rgba(255, 255, 255, 0.5);
   margin-top: 4px;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Mobile / Touch Optimizations                                               */
+/* -------------------------------------------------------------------------- */
+
+/* Safe area inset for iOS notch / home bar */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Touch-friendly tap targets */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    min-height: 44px;
+  }
+
+  /* Bigger tap target for dropzone on touch devices */
+  .dropzone {
+    padding: 32px 20px;
+  }
+
+  /* Remove hover effects on touch — prevents stuck hover states */
+  .glass-card-hover:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+}
+
+/* Tighter card padding on mobile */
+@media (max-width: 640px) {
+  /* Card component inner padding */
+  .glass-card {
+    border-radius: 14px;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  /* Ingredient row grams input more compact */
+  .input-dark {
+    padding: 8px 10px;
+    font-size: 0.875rem;
+  }
+}

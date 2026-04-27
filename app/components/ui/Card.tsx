@@ -12,6 +12,7 @@ interface CardProps {
 
 /**
  * Glassmorphism card component with optional hover effect and glow border.
+ * Padding is responsive: tighter on mobile (p-4), roomier on sm+ (p-6).
  */
 export default function Card({
   children,
@@ -24,7 +25,7 @@ export default function Card({
     <div
       id={id}
       className={`
-        glass-card p-6
+        glass-card p-4 sm:p-6
         ${hover ? 'glass-card-hover' : ''}
         ${glow ? 'glow-brand' : ''}
         ${className}

@@ -174,7 +174,8 @@ export default function DailyTracker() {
       {/* Daily Summary Footer */}
       {meals.length > 0 && (
         <div className="mt-5 pt-4 border-t border-white/[0.06]">
-          <div className="grid grid-cols-7 gap-2">
+          {/* 2 cols on mobile, 4 on sm, 7 on lg */}
+          <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-7 gap-2">
             {TRACKED_NUTRIENTS.map((nutrient) => (
               <div key={nutrient.key} className="text-center">
                 <p

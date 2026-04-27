@@ -317,11 +317,12 @@ export default function IngredientList() {
       </div>
 
       {/* Nutrition Summary */}
-      <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5">
+      <div className="p-3 sm:p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5">
         <h3 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
           Total Nutrition ({portionMultiplier}× portion)
         </h3>
-        <div className="grid grid-cols-4 gap-3">
+        {/* 2 cols on mobile, 4 on sm */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {TRACKED_NUTRIENTS.slice(0, 4).map((nutrient) => (
             <div key={nutrient.key} className="text-center">
               <p
@@ -339,7 +340,7 @@ export default function IngredientList() {
           ))}
         </div>
 
-        {/* Secondary nutrients */}
+        {/* Secondary nutrients — 3 cols always */}
         <div className="grid grid-cols-3 gap-3 mt-3 pt-3 border-t border-white/[0.05]">
           {TRACKED_NUTRIENTS.slice(4).map((nutrient) => (
             <div key={nutrient.key} className="text-center">
